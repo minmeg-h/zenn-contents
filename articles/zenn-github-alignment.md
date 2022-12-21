@@ -2,22 +2,37 @@
 title: "Zennとgithubを連携してみる"
 emoji: "😎"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: []
-published: false #trueにすることでzennに公開される
+topics: ["git", "github", "zenn"]
+published: true #trueにすることでzennに公開される
 ---
 
-GitHubリポジトリでZennのコンテンツを管理する
+公式の記事を見ながらやってみたので、自分への備忘録もかねて、共有したいと思います。
+## 1.GitHubリポジトリをZennのコンテンツを連携する
+
+参考記事:【公式】GitHubリポジトリでZennのコンテンツを管理する
 https://zenn.dev/zenn/articles/connect-to-github
 
-その次はこちら
-Zenn CLIをインストールする
+公式の記事を読みながらサクッとやってみる
+GithubをリポジトリをZennで指定するだけでいいのか、とっても便利！
+
+色々と調べているうちに興味深い記事がありました
+https://zenn.dev/j5c8k6m8/articles/zenn-github-repository-name
+
+リポジトリ名ってとりあえずすごく悩みますよね…
+自分は公式の記事に沿ってzenn-docsにしました
+
+## 2.Zenn CLIをインストールする
+
+参考記事:【公式】Zenn CLIをインストールする
 https://zenn.dev/zenn/articles/install-zenn-cli
 
-node.jsがないので入れてみます
-https://nodejs.org/ja/
-とりあえず推奨版で。
+Zenn CLIがあるとさらに便利に使えるらしい、ということで入れてみます。
 
-画面をとりあえずぽちぽちする
+まずはnode.jsがないのでインストールします
+https://nodejs.org/ja/
+
+推奨版のインストーラーをダウンロード、ダウンロード先のディレクトリ等を変更する必要はありませんでした。
+インストールができたか確認します。
 
 ```
 % node -v
@@ -25,11 +40,12 @@ v18.12.1
 % npm -v
 8.19.2
 ```
-PATH通さなくても行けた
+いけましたね！
+
+後は参考記事にしたがってセットアップしていきます
 
 ```
-
-% npm init --yes
+% npm init --yes　　# プロジェクトをデフォルト設定で初期化
 Wrote to /Users/minmeg/workspace/zenn-docs/package.json:
 
 {
@@ -44,12 +60,10 @@ Wrote to /Users/minmeg/workspace/zenn-docs/package.json:
   "author": "",
   "license": "ISC"
 }
-
-
 ```
 
 ```
-zenn-docs % npm install zenn-cli
+% npm install zenn-cli　# zenn-cliを導入
 
 added 1 package, and audited 2 packages in 3s
 
@@ -62,7 +76,7 @@ npm notice
 ```
 
 ```
-zenn-docs % npx zenn init
+% npx zenn init　# セットアップを行う
 
   🎉  Done!
   早速コンテンツを作成しましょう
@@ -77,53 +91,50 @@ zenn-docs % npx zenn init
   $ zenn preview
 ```
 
-```
-npx zenn new:article --slug my-awesome-article
-```
+🎉が出た！やったね🎉🎉
 
-nodeを終了する方法(コマンド)４選
-https://qiita.com/anoonoll/items/ec1cc54d2e442699fabd
+この時点で最初のコミットしてしまいます
 
 ```
+% git init
+% git add .
+% git commit
+% git remote add origin git@github.com:~~~
+% git branch -M main
+% git push --set-upstream origin main
+```
 
-minmeg@minmegnoMacBook-Pro zenn-docs % npx zenn new:article --slug zenn-github-alignment
+## 3.記事を書いてみる
+
+参考記事:【公式】Zenn CLIで記事・本を管理する方法
+https://zenn.dev/zenn/articles/zenn-cli-guide
+
+さっそく記事を書いてみましょう！（これです）
+オプションでslugが任意のものを付けられるようです
+
+```
+% npx zenn new:article --slug zenn-github-alignment
 created: articles/zenn-github-alignment.md
-minmeg@minmegnoMacBook-Pro zenn-docs % git init    
-hint: Using 'master' as the name for the initial branch. This default branch name
-hint: is subject to change. To configure the initial branch name to use in all
-hint: of your new repositories, which will suppress this warning, call:
-hint: 
-hint:   git config --global init.defaultBranch <name>
-hint: 
-hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
-hint: 'development'. The just-created branch can be renamed via this command:
-hint: 
-hint:   git branch -m <name>
-Initialized empty Git repository in /Users/minmeg/workspace/zenn-docs/.git/
-minmeg@minmegnoMacBook-Pro zenn-docs % git add .
-minmeg@minmegnoMacBook-Pro zenn-docs % git remote add origin git@github.com:minmeg-h/zenn-docs.git
-minmeg@minmegnoMacBook-Pro zenn-docs % git push
-fatal: The current branch master has no upstream branch.
-To push the current branch and set the remote as upstream, use
+```
 
-    git push --set-upstream origin master
-
-minmeg@minmegnoMacBook-Pro zenn-docs % git branch -M main
-minmeg@minmegnoMacBook-Pro zenn-docs % git push                 
-fatal: The current branch main has no upstream branch.
-To push the current branch and set the remote as upstream, use
-
-    git push --set-upstream origin main
-
-minmeg@minmegnoMacBook-Pro zenn-docs % git push --set-upstream origin main
-Enumerating objects: 8, done.
-Counting objects: 100% (8/8), done.
-Delta compression using up to 4 threads
-Compressing objects: 100% (5/5), done.
-Writing objects: 100% (8/8), 1.04 KiB | 530.00 KiB/s, done.
-Total 8 (delta 0), reused 0 (delta 0), pack-reused 0
-To github.com:minmeg-h/zenn-docs.git
- * [new branch]      main -> main
-Branch 'main' set up to track remote branch 'main' from 'origin'.
+プレビューもできるようです！
 
 ```
+% npx zenn preview
+👀 Preview: http://localhost:8000
+```
+
+保存したらプレビューにも反映されています。
+プレビューを終了するには control + C です
+macのcontrolボタンが分からず少し途方に暮れました😇
+
+そしてマークダウン上部の`published: false`をtrueにすると…
+投稿されました！👏
+
+自分の手元に履歴も残るし、編集しやすくてとってもいいですね
+どんどん書いていきたいです
+
+
+#### 参考になりそうな記事
+https://zenn.dev/zenn/articles/markdown-guide
+
